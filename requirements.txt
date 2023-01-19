@@ -1,0 +1,5 @@
+Django~=3.2.16
+Pillow
+psycopg2-binary==2.9.5
+django-widget-tweaks
+python-decouple==3.6

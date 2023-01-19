@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} Delete confirm page {% endblock %}
+{% block content %}
+    <div class="page_content single-page about-page contacts-page">
+        <div class="content-head">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="main">
+                        <div class="title">
+                            Contact Us
+                        </div>
+                        <div class="contacts-columns">
+
+                            <form action="." method="post">{% csrf_token %}
+                                <div class="text" style="color:white; margin: 10px;">
+                                    Are you sure you want to delete chosen element?
+                                    You can not roll back the deleted item
+                                </div>
+                                <input style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="Confirm" />
+                                <a href="{% url 'profile' %}"><input style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" value="Cancel" type="button"/></a>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

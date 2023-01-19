@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %} Bloggers {% endblock %}
+{% block content %}
+
+        <div class="page_content single-page about-page">
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="team">
+                            <div class="team_title">List of bloggers</div>
+                            <div class="section_content">
+                                {% for blogger in bloggers %}
+                                <div class="item">
+                                    <div class="item_image">
+                                        <div class="sq_parent">
+                                            <div class="sq_wrap">
+                                                <div class="sq_content">
+                                                    <img src="{{ blogger.user.avatar.url }}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item_info">
+                                        <div class="item_title">{{ blogger.user.first_name }} {{ blogger.user.last_name }}</div>
+                                        <div class="item_position">
+                                            <p>{{ blogger.description }}</p><br>
+                                            <a href="{% url 'm-blogger-delete' blogger.pk %}"><button style="margin: 10px 0; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="button">Delete</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="pagination">
+                            {% if page_obj.has_other_pages %}
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                    {% else %}
+                                        <li class="prev"><a disabled></a></li>
+                                    {% endif %}
+
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                                <li class="current"><a disabled>{{ i }}</a></li>
+                                            {% else %}
+                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                        <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                                    {% else %}
+                                        <li class="next"><a disabled></a></li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

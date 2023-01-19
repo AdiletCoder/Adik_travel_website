@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} {{ place.name }} {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'destinations' %}">Destinations</a>
+                    <span class="separator">/</span>
+                    <a href="#" class="current">Destination</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({{ place.pictures.first }});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        {{place.country.name}}, {{ place.name }}
+                                    </h1>
+                                    <div class="geo">{{place.country.name}}, {{ place.name }}</div>
+                                </div>
+                                <div class="single-right controls">
+                                    <a href="{% url 'trip-create' place.pk %}"><button class="btn"><span>Book now</span></button></a>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+                                {% for image in place.pictures.all %}
+                                    <div class="single-tour-slide">
+                                        <img src="{{ image }}" class="image-cover" alt="">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        {{ place.description }}
+                                    </p>
+                                </div>
+                                <div class="single-right">
+                                    <div class="map-iframe">
+                                        {% autoescape off %}
+                                        {{place.map}}
+                                        {% endautoescape %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <h2>Tour details</h2>
+                                <div class="program">
+                                    <h5>List of guides related to {{ place.name }}</h5>
+                                    <div class="program-days">
+                                        {% for guide in place.guides.all %}
+                                            <div class="day-item">
+                                            <div class="day-head">
+                                                <div class="day-icon">
+                                                    <img src="{{ guide.user.avatar.url }}" alt="" class="image-cover">
+                                                </div>
+                                                <div class="day-num">{{ guide.user.first_name }} {{ guide.user.last_name }}</div>
+                                            </div>
+                                            <div class="day-body">
+                                                <div class="apartment-item">
+                                                    <div class="apartment-content">
+                                                        <h6>About guide</h6>
+                                                        <p>{{ guide.description }}</p>
+                                                        <hr>
+                                                        <h6>Experience</h6>
+                                                        <p>{{ guide.experience }}</p>
+                                                        <hr>
+                                                        <h6>Languages:</h6>
+                                                        {% for lang in guide.language.all %}
+                                                        <ul>
+                                                            <li>{{lang}}</li>
+                                                        </ul>
+                                                        {% endfor %}
+                                                        <hr>
+                                                        <h6>Services:</h6>
+                                                        <ul>
+                                                            {% for service in guide.services.all %}
+                                                            <li>{{ service.name }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        <hr>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <p><b>Services you can choose during the travel</b></p>
+                                <div class="list-block">
+                                    <ul class="true">
+                                        {% for service in place.services.all %}
+                                        <li>{{ service.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h3 style="font-size:30px;"><b>Hotels</b></h3>
+                                <p>
+                                    List of hotels in this city registered in our platform.
+                                </p>
+                                {% for hotel in place.hotels.all %}
+                                <div class="apartment-item">
+                                    <div class="apartment-images lightgallery">
+                                        {% for pic in hotel.pictures.all %}
+                                        <a class="image-container" href="{{ pic }}">
+                                            <img src="{{ pic }}" class="image-cover" alt="">
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="apartment-info">
+                                        <h2 class="apartment-title">{{ hotel.name }}</h2>
+                                        <div class="apartment-cost">{{ hotel.price }}~{{ place.country.currency }}</div>
+                                    </div>
+                                    <div class="apartment-content">
+                                        <p>
+                                            <i>
+                                                {{ hotel.description }}
+                                            </i>
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            <div class="related_tours" id="end-single-content">
+                                <div class="_title">
+                                    Related Tours
+                                </div>
+                                <div class="most_popular__section">
+                                    {% for place in rel_places %}
+                                    <a href="{% url 'destination' place.pk %}" class="slider_item" style="background-image: url({{ place.pictures.first }})">
+                                        <div class="slider_item__content">
+                                            <div class="rating">
+                                                <div class="reviews_count">
+                                                    {{place.country.name}}
+                                                </div>
+                                            </div>
+                                            <div class="title">
+                                                {{ place.name }}
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="reviews_comments">
+                                <form class="form" method="POST">
+                                    {% csrf_token %}
+                                    <div class="add_comment">
+                                        <div class="_title">Write a review</div>
+                                        <div class="field">
+                                            <label class="label">Your comment</label>
+                                            <div class="input_wrap">
+                                                {{ form.message|add_class:"textarea"  }}
+                                                {{ form.message.errors|escape}}
+                                            </div>
+                                        </div>
+                                        <div class="comment-fotm-bottom">
+                                            <button class="btn submit">Sumbit</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+
+                                <div class="reviews_comments_top">
+                                    <div class="_title">{{ place.comment.count }} Reviews</div>
+                                </div>
+                                <div class="reviews_comments_list">
+                                    {% if not place.comment.all %}
+                                    No comments yet...
+
+                                {% else %}
+
+                                    {% for c in place.comment.all %}
+
+                                    <div class="comment_item">
+                                        <div class="photo">
+                                            <img src="{{ c.user.avatar.url }}" alt="" class="image-cover">
+                                        </div>
+                                        <div class="name">{{ c.user.first_name }} {{ c.user.last_name }}</div>
+                                        <div class="text">
+                                            {{ c.message }}
+                                        {% if request.user == c.user %}
+                                            <a href="{% url 'destination-delete' c.pk %}">Delete</a>
+                                        {% endif %}
+
+                                        </div>
+                                        <div class="date">{{ c.timestamp }}</div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-fixed-bottom getModal" data-href="#book-now">
+                Book now
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+
+    <div style="display: none;">
+        <div class="modal modal_book_now" id="book-now">
+            <div class="modal_wrap">
+                <div class="modal-head">
+                    <img src="img/vput2.jpg" class="image-cover" alt="">
+                </div>
+                <div class="modal-body">
+                    <div class="tags">
+                        <div class="tag discount">20% off</div>
+                        <div class="tag new">New</div>
+                    </div>
+                    <div class="modal-title">
+                        America, San Francisco | $3,500
+                    </div>
+                    <div class="fields">
+                        <div class="field half">
+                            <label class="label" for="name-2">Full Name*</label>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="name-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="email-2">Email Address*</label>
+                            <div class="input_wrap">
+                                <input type="email" class="input" id="email-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="date-2a">Travel Date*</label>
+                            <div class="input_wrap calendar-field">
+                                <input type="text" class="input js_calendar" id="date-2a">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <p class="label">Person*</p>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="date-2">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="enquiry-2">Your Enquiry*</label>
+                            <div class="textarea_wrap">
+                                <textarea class="textarea" id="enquiry-2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn submit">Sumbit</button>
+                </div>
+            </div>
+            <div class="modal_close"></div>
+        </div>
+    </div>
+        {% endblock %}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>{%block title %}Adik {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/message.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/ADK-logo.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/ADK-logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/ADK-logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/ADK-logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/ADK-logo.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/ADK-logo.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/ADK-logo.png' %}">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="#000" name="msapplication-TileColor">
+    <meta content="#000" name="theme-color">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="wrap">
+                <div class="wrap_float">
+
+                    <div class="header__bottom">
+                        <a href="/" class="logo"><img src="{% static 'img/ADK-logo.png' %}" style="width:150px;"></a>
+                        <div class="menu" id="js-menu">
+                            <div class="close"></div>
+                            <div class="scroll">
+                                <a class="current">Home</a>
+                                <div class="scroll_wrap">
+                                    <ul>
+                                        <li><a href="{% url 'home' %}">Home</a></li>
+                                        <li><a href="{% url 'destinations' %}">Destinations</a></li>
+                                        <li><a href="{% url 'blog' %}">Blog</a></li>
+
+                                        <li class="dropdown_li">
+                                            <a href="{% url 'profile' %}">
+                                                <span>Profile</span>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <ul>
+                                                    {% if request.user.is_authenticated %}
+                                                    <li><a href="{% url 'profile' %}">My profile</a> </li>
+                                                    <li><a href="{% url 'change_password'%}">Change Password</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        {% if not request.user.is_authenticated %}
+                                        <li><a href="{% url 'login'%}">Login</a></li>
+                                        <li><a href="{% url 'register'%}">Sign Up</a></li>
+                                        {% else %}
+                                        <li><a href="{% url 'logout'%}">Log Out</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search_link" id="search_link"></div>
+                        <div class="mobile_btn" id="mobile_btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        {% if messages %}
+                        <div style="border-style:solid green; border-radius: 10px; color: green;">
+                          <div class="Message-icon">
+                            <i class="fa fa-check"></i>
+                          </div>
+                          <div class="Message-body">
+                              {% for message in messages %}
+                            <p>{{ message }}</p>
+                              {% endfor %}
+                          </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        {% block content %}
+        {% endblock %}
+
+        <div class="footer">
+            <div class="footer_bottom">
+                Copyright <a href="#">Adik</a>
+            </div>
+        </div>
+    </div>
+    <form method="get" action="{% url 'search_places' %}">
+<div class="search_form" id="search_form">
+        <div class="wrap">
+            <div class="wrap_float">
+                <input type="search" name="q" class="input" placeholder="Search...">
+                <button type="submit" class="submit"></button>
+                <div class="close"></div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="overlay" id="overlay"></div>
+
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_HERE&callback=initMap"></script>
+    <script defer src="{% static 'js/jquery.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script defer src="{% static 'js/slick.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.arcticmodal.min.js' %}"></script>
+    <script defer src="{% static 'js/lightgallery.js' %}"></script>
+    <script defer src="{% static 'js/spincrement.min.js' %}"></script>
+    <script defer src="{% static 'js/scripts.min.js' %}"></script>
+    <script defer src="{% static 'js/message.js' %}"></script>
+</body>
+</html>

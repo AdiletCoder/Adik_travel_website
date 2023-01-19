@@ -1,0 +1,113 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Add meal {% endblock %}
+{% block content %}
+
+<div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="#">Add type of meal</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header4.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        You can add new type of meal here.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        In order to add new hotel do following steps:
+                                        <ul>
+                                            <li>
+                                                <h5><b>Write the name of the type of meal.</b></h5>
+                                                <h5><b>Write the description.</b></h5>
+                                                <h5><b>Write the price.</b></h5>
+                                                After submitting, the system will add new type of the meal.<br>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <br><h2>Fill the form to add new language:</h2>
+                                {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                <p>{{ error|escape }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div id="form_errors">
+                                {% for key, value in form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="fields__block">
+                            <div class="fields">
+                                <div class="field">
+                                    {% csrf_token %}
+                                        <div class="field_wrap keywords" style="margin: 10px 0;">
+                                            <div><label class="section_subtitle">Type of food</label></div>
+                                            {{ form.type|add_class:"input form-control-lg" }}
+                                            {{ form.type.errors|escape}}
+                                        </div>
+
+                                        <div class="field_wrap keywords" style="margin: 10px 0;">
+                                            <div><label class="section_subtitle">Description</label></div>
+                                            {{ form.description|add_class:"textarea form-control-lg" }}
+                                                {{ form.description.errors|escape}}
+                                        </div>
+
+                                        <div class="field_wrap keywords" style="margin: 10px 0;">
+                                            <div><label class="section_subtitle">Price</label></div>
+                                            {{ form.price|add_class:"input form-control-lg" }}
+                                                {{ form.price.errors|escape}}
+                                        </div>
+                                    <input class="btn btn-success" type="submit" name="submit" value="Submit" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+{% endblock %}
+

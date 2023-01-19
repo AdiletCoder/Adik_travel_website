@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+
+    <div class="page_content single-page blog-single">
+        <div class="content-head">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="main">
+                        <div class="reviews_comments">
+                            <div class="add_comment">
+                                <div class="field">
+                                    <label for="comment-input-4" class="label">Your comment</label>
+                                    <div class="input_wrap">
+                                        <form method="post" enctype="multipart/form-data" >
+                                            <textarea id="comment-input-4" class="textarea">
+                                                {{ comment_form.as_p }}
+                                            </textarea>
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn submit" style="margin: 15px 0;">Sumbit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

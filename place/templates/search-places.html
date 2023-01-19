@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Results {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="#">Home</a>
+                    <span class="separator">/</span>
+                    <a href="#" class="current">Search Results</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header5.jpg' %});"></div>
+        <div class="page_content blog-page search-page">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="title">
+                        Search Results
+                    </div>
+                    <div class="subtitle">
+                        {{ place_results.count }} articles found
+                    </div>
+                    <div class="main">
+                        <div class="blog-list three-colums">
+                            {% for place in place_results %}
+                                <a href="{% url 'destination' place.pk %}" class="blog-item">
+                                <div class="_img" style="background-image: url({{ place.pictures.first }})">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_title">
+                                    {{place.name}}
+                                </div>
+                                <div class="_text">
+                                    {{ place.description | truncatewords:20 }}
+                                    {{ place.language.all }}
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                        <div class="pagination">
+                            {% if page_obj.has_other_pages %}
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                {% else %}
+                                <li class="prev"><a disabled></a></li>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                <li class="current"><a disabled>{{ i }}</a></li>
+                                {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                                {% else %}
+                                <li class="next"><a disabled></a></li>
+                                {% endif %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="overlay" id="overlay"></div>
+
+    <div style="display: none;">
+        <div class="modal modal_book_now" id="book-now">
+            <div class="modal_wrap">
+                <div class="modal-head">
+                    <img src="img/vput2.jpg" class="image-cover" alt="">
+                </div>
+                <div class="modal-body">
+                    <div class="tags">
+                        <div class="tag discount">20% off</div>
+                        <div class="tag new">New</div>
+                    </div>
+                    <div class="modal-title">
+                        America, San Francisco | $3,500
+                    </div>
+                    <div class="fields">
+                        <div class="field half">
+                            <label class="label" for="name-2">Full Name*</label>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="name-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="email-2">Email Address*</label>
+                            <div class="input_wrap">
+                                <input type="email" class="input" id="email-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="date-2a">Travel Date*</label>
+                            <div class="input_wrap calendar-field">
+                                <input type="text" class="input js_calendar" id="date-2a">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <p class="label">Person*</p>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="date-2">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="enquiry-2">Your Enquiry*</label>
+                            <div class="textarea_wrap">
+                                <textarea class="textarea" id="enquiry-2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn submit">Sumbit</button>
+                </div>
+            </div>
+            <div class="modal_close"></div>
+        </div>
+    </div>
+
+{% endblock %}

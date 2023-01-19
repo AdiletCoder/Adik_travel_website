@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Post Detail {% endblock %}
+{% block content %}
+
+<div class="image_bg--single" style="background-image: url({{ post.get_image }});"></div>
+        <div class="page_content single-page blog-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="title">
+                                {{ post.title }}
+                            </div>
+                            <div class="date">
+                                {{ post.date_hub }} | {% for tag in post.tags.all %} {{ tag }}  {% endfor %}
+                            </div>
+                            <div class="description">
+                                <p>
+                                  {% if request.user.is_staff and request.user.is_superuser and request.user.is_authenticated %}
+                                  <a class="btn btn-outline-dark" href="{% url 'update-post' post.slug %}" role="button">Update</a>
+                                  <a class="btn btn-outline-dark" href="{% url 'delete-post' post.slug %}" role="button">Delete</a>
+                                  {% endif %}
+
+                                </p>
+                                <p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="details">
+                            <div class="text">
+                                <p>{{ post.text }}</p>
+                            </div>
+                        </div>
+                        <div class="page--content">
+                          <p>
+                            {% if request.user.is_authenticated %}
+                                <form action="{% url 'like_post' post.slug %}" method="POST">
+                                    {% csrf_token %}
+                                    {% if liked %}
+                                        <button type="submit" name="post_id" value="{{ post.id }}"><img src="{% static 'img/like.png' %}" style="width: 25px;"></button> - {{total_likes}} likes
+                                    {% else %}
+                                        <button type="submit" name="post_id" value="{{ post.id }}"><img src="{% static 'img/dislike.png' %}" style="width: 25px;"></button> - {{total_likes}} likes
+                                    {% endif %}
+                                </form>
+                                {% else %}
+                                <p>Login to like and comment, {{total_likes}} likes post has</p>
+                              {% endif %}
+                          </p>
+                            <p>
+                              <h4>Comments...</h4>
+                                <br/>
+                                {% if not post.commentaries.all %}
+                                    No comments yet...
+                                    {% if request.user.is_authenticated %}
+                                    <a href="{% url 'add_comment' post.slug %}"> Add one</a>
+                                    {% endif %}
+                                {% else %}
+                                    {% if request.user.is_authenticated %}
+                                    <a href="{% url 'add_comment' post.slug %}">Add comment</a>
+                                    {% endif %}
+                                    <br/>
+                                    {% for comment in post.commentaries.all %}
+                                        <strong>
+                                            {{ comment.user }} -
+                                            {{ comment.created }}
+                                        </strong>
+                                        <br/>
+                                        {{ comment.body }}
+                                        <br/><br/>
+                                        <hr>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </p>
+                        </div>
+                        <div class="recent_articles">
+                            <div class="title">
+                                Recent Articles
+                            </div>
+                            <div class="items">
+                                <a class="blog_item">
+                                    <div class="blog_item_img">
+                                        <img src="img/recent-1.jpg" alt="">
+                                    </div>
+                                    <div class="blog_item_date">
+                                        JUNE 6/2019 | UNCATEGORIZED
+                                    </div>
+                                    <div class="blog_item_title">
+                                        Pack wisely before traveling
+                                    </div>
+                                    <div class="blog_item_text">
+                                        A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                                    </div>
+                                </a>
+                                <a class="blog_item">
+                                    <div class="blog_item_img">
+                                        <img src="img/recent-2.jpg" alt="">
+                                    </div>
+                                    <div class="blog_item_date">
+                                        JUNE 6/2019 | UNCATEGORIZED
+                                    </div>
+                                    <div class="blog_item_title">
+                                        Pack wisely before traveling
+                                    </div>
+                                    <div class="blog_item_text">
+                                        A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+<div class="reviews_comments_top">
+            <div class="_title">2 Reviews</div>
+            <div class="rating">
+                <div class="stars">
+                    <div class="star active"></div>
+                    <div class="star active"></div>
+                    <div class="star active"></div>
+                    <div class="star active"></div>
+                    <div class="star"></div>
+                </div>
+            </div>
+            <div class="sorting">
+                <p>Sort by:</p>
+                <div class="select_wrap">
+                    <select>
+                        <option value="Rating">Rating</option>
+                        <option value="Date">Date</option>
+                        <option value="Popular">Popular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="reviews_comments_list">
+            <div class="comment_item">
+                <div class="photo">
+                    <img src="img/vblog1.jpg" alt="" class="image-cover">
+                </div>
+                <div class="name">John Smith</div>
+                <div class="position">Family Traveller</div>
+                <div class="text">
+                    Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </div>
+                <div class="rating">
+                    <div class="stars">
+                        <div class="star active"></div>
+                        <div class="star active"></div>
+                        <div class="star active"></div>
+                        <div class="star active"></div>
+                        <div class="star"></div>
+                    </div>
+                </div>
+                <div class="date">January 23, 2019</div>
+            </div>
+        </div>

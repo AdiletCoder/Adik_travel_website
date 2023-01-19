@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %} Destinations {% endblock %}
+{% block content %}
+
+        <div class="image_bg" style="background-image: url()"></div>
+        <div class="page_content three-columns">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="section-title">List of groups</div>
+                    <div class="main">
+                        <div class="most_popular__section">
+                            {% for place in groups %}
+                                <a href="{% url 'm-place-detail' place.pk %}" class="slider_item" style="background-image: url({{ place.pictures.first }})">
+                                    <div class="slider_item__content">
+                                        <div class="title">
+                                            {{ place.type }}
+                                        </div>
+                                        <p>
+                                            <span>{{ place.count }}</span>
+                                        </p>
+                                        {% for trip in place.trips.all %}
+                                        <ul>
+                                            <li>{{trip.user}}</li>
+                                            <li>{{trip.place}}</li>
+                                            <li>{{trip.guide}}</li>
+                                            <li>{{trip.hotel}}</li>
+                                            <li>{{trip.service.all}}</li>
+                                        </ul>
+                                        {% endfor %}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="pagination">
+                            {% if page_obj.has_other_pages %}
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                    {% else %}
+                                        <li class="prev"><a disabled></a></li>
+                                    {% endif %}
+
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                                <li class="current"><a disabled>{{ i }}</a></li>
+                                            {% else %}
+                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                        <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                                    {% else %}
+                                        <li class="next"><a disabled></a></li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Blogging request {% endblock %}
+{% block content %}
+
+<div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <span class="separator">/</span>
+                    <a href="#" class="current">Request for blogging</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header3.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        Increase in developing of traveller's community,<br> become a travel blogger.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                         In this platform you can become a blogger. In order to do this, you have to fill the request form and wait for the approval by moderator of the platform.<br>
+                                        <ul>
+                                            <li>
+                                                <h5><b>Tell about yourself.</b></h5>
+                                                <h5><b>Select languages you can make an articles.</b>Must be at least B2 level.</h5>
+                                                After submitting, the system will send request to moderator.<br>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <h2>Fill the form to request for blogging:</h2>
+                                <form method="post" enctype="multipart/form-data">
+                                    <div class="fields__block">
+                                        <div class="fields">
+                                            <div class="field">
+                                                {% csrf_token %}
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">About you</label></div>
+                                                    {{ form.description|add_class:"textarea form-control-lg" }}
+                                                    {{ form.description.errors|escape}}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Choose languages for blogging</label></div>
+                                                    {{ form.language|add_class:"textarea form-control-lg" }}
+                                                        {{ form.language.errors|escape}}
+                                                </div>
+                                                <div>
+                                                  <button type="submit"  class="btn">Request</button>
+                                                </div><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+{% endblock %}

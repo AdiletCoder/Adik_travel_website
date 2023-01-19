@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %} Guide approval {% endblock %}
+{% block content %}
+    <div class="page_content single-page tour-single">
+        <div class="content-body">
+            <div class="wrap" >
+                <div class="wrap_float">
+                    <div class="main">
+                        <div class="section-top single-row">
+                            <div class="single-left">
+                                <form method="post">
+                                    {% csrf_token %}
+
+                                        <div class="program">
+                                            <h2>List of guides waiting for approval</h2>
+                                            <div class="program-days">
+                                                {% for guide in guides %}
+                                                <div class="day-item">
+                                                    <div class="day-head">
+                                                        <div class="day-num">{{ guide.user.first_name }} </div>
+                                                        <div class="day-title">{{ guide.user.last_name }}</div>
+                                                    </div>
+                                                    <div class="day-body">
+                                                        <div class="apartment-item">
+                                                            <div class="apartment-content">
+                                                                <p><b>Description</b>: {{ guide.description }}</p>
+                                                                <p><b>Experience</b>: {{ guide.experience }}</p>
+                                                                <p><b>City</b>: <b>{{ guide.place }}</b></p>
+
+                                                            </div>
+                                                                <button style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="accept {{guide.id}}" name="accept">Accept</button>
+                                                                <button style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="decline {{guide.id}}" name="accept">Decline</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="program">
+                                            <h2>List of bloggers waiting for approval</h2>
+                                            <div class="program-days">
+                                                {% for blogger in bloggers %}
+                                                <div class="day-item">
+                                                    <div class="day-head">
+                                                        <div class="day-num">{{ blogger.user.first_name }} </div>
+                                                        <div class="day-title">{{ blogger.user.last_name }}</div>
+                                                    </div>
+                                                    <div class="day-body">
+                                                        <div class="apartment-item">
+                                                            <div class="apartment-content">
+                                                                <p>{{ blogger.description }}</p>
+                                                            </div>
+
+                                                            <button style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="acceptb {{blogger.id}}" name="accept">Accept</button>
+                                                            <button style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="declineb {{blogger.id}}" name="accept">Decline</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

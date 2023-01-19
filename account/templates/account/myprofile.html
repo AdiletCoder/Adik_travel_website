@@ -1,0 +1,298 @@
+{% extends 'base.html'%}
+{% load widget_tweaks %}
+{% block title %} My Profile {% endblock %}
+{% block content %}
+
+    <div class="page_content single-page tour-single">
+        <div class="content-body">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="main">
+                        <div class="section-top single-row">
+                            <div class="single-left">
+                                <div class="single-content page--content details">
+                                    <h2>My profile</h2>
+
+                                    <p class="section_title">{{ user.first_name }} {{ user.last_name }}</p>
+                                    {% if request.user.is_moderator %}
+                                        <h2>Moderator page</h2>
+                                        <div class="team">
+                                            <div class="team_title">
+                                                List of moderators duties
+                                            </div>
+                                            <ul>
+                                                <li><a href="{% url 'm-places' %}">List of places</a></li>
+                                                <li><a href="{% url 'm-guides' %}">List of guides</a></li>
+                                                <li><a href="{% url 'm-bloggers' %}">List of bloggers</a></li>
+                                                <li><a href="{% url 'add-place' %}">Add new place</a></li>
+                                                <li><a href="{% url 'add-language' %}">Add language</a></li>
+                                                <li><a href="{% url 'add-country' %}">Add country</a></li>
+                                                <li><a href="{% url 'add-food' %}">Add meal</a></li>
+                                                <li><a href="{% url 'add-hotel' %}">Add hotel</a></li>
+                                                <li><a href="{% url 'm-approve-guide' %}">Approve guides and bloggers</a></li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+
+                                     {% if request.user.is_guide %}
+                                        <div class="faq">
+                                            <h2 class="_title">Your Guide profile.</h2>
+                                            <p>You can not change the information below, to do it you have to send request to moderator.</p>
+
+                                            <div class="faq_accordeon">
+                                                <div class="faq_item active">
+                                                    <div class="faq_tab">
+                                                        <span>Description</span>
+                                                    </div>
+                                                    <div class="faq_content" style="display: block;">
+                                                        <p>{{ guide.description }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="faq_item">
+                                                <div class="faq_tab">
+                                                    <span>Experience</span>
+                                                </div>
+                                                <div class="faq_content">
+                                                    <p>{{ guide.experience }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="faq_item">
+                                                <div class="faq_tab">
+                                                    <span>Place</span>
+                                                </div>
+                                                <div class="faq_content">
+                                                    <p></p>
+                                                    <p>{{ guide.place }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="faq_item">
+                                                <div class="faq_tab">
+                                                    <span>Language</span>
+                                                </div>
+                                                <div class="faq_content">
+                                                    <ul>
+                                                        {% for lang in guide.language.all %}
+                                                            <li >{{ lang }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <button class="btn" style="color:white;"><a href="{% url 'g-add_service' %}">Add a service</a></button>
+                                    {% endif %}
+
+                                    {% if request.user.is_blogger %}
+                                        <div class="faq">
+                                            <h2 class="_title">Your Blogging profile.</h2>
+                                            <p>You can not change the information below, to do it you have to send request to moderator.</p>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="program">
+                                        <h2>My trips</h2>
+                                        <div class="program-days">
+                                            {% for trip in trips %}
+                                                <div class="day-item">
+                                                <div class="day-head">
+                                                    <div class="day-num">
+                                                        {{trip.place}}
+                                                    </div>
+                                                    <div class="day-title">
+                                                        {{ trip.start_date }} - {{ trip.end_date }} Price: {{ trip.price }} {{ trip.place.country.currency }} {{ trip.type }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="day-body">
+                                                    <div class="apartment-item">
+                                                        <div class="apartment-content">
+                                                            <p>
+                                                                Hotel: {{ trip.hotel.name }}<br>
+                                                                Guide: {{ trip.guide.user.first_name }} {{ trip.guide.user.last_name }} <br>
+                                                                Trip plan:
+                                                                {% for service in trip.service.all %}
+                                                                 {{ service.name }},
+                                                                {% endfor %}
+                                                                <br>Meal type in the trip {{ trip.meal }}<br>
+                                                                <a href="{% url 'trip-update' trip.pk %}">Change</a>
+                                                                <a href="{% url 'trip-delete' trip.pk %}">Delete</a>
+                                                            </p>
+                                                        </div>
+                                                        <div class="apartment-images lightgallery">
+                                                            {% for image in trip.hotel.pictures.all %}
+                                                            <a class="image-container" href="{{image}}">
+                                                                <img src="{{ image }}" class="image-cover" alt="">
+                                                            </a>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="program">
+                                        <h2>My completed trips</h2>
+                                        <div class="program-days">
+                                            {% for trip in completed_trips %}
+                                            <div class="day-item">
+                                                <div class="day-head">
+                                                    <div class="day-num">
+                                                        {{trip.place}}
+                                                    </div>
+                                                    <div class="day-title">
+                                                        {{ trip.start_date }} - {{ trip.end_date }} Price: {{ trip.price }} {{ trip.place.country.currency }} {{ trip.type }}
+                                                    </div>
+                                                </div>
+                                                <div class="day-body">
+                                                    <div class="apartment-item">
+                                                        <div class="apartment-content">
+                                                            <p>
+                                                                Hotel: {{ trip.hotel.name }}<br>
+                                                                Guide: {{ trip.guide.user.first_name }} {{ trip.guide.user.last_name }} <br>
+                                                                Trip plan:
+                                                                {% for service in trip.service.all %}
+                                                                 {{ service.name }},
+                                                                {% endfor %}
+                                                                <br>Meal type in the trip {{ trip.meal }}<br>
+                                                                <a href="{% url 'trip-update' trip.pk %}">Change</a>
+                                                                <a href="{% url 'trip-delete' trip.pk %}">Delete</a>
+                                                            </p>
+                                                        </div>
+                                                        <div class="apartment-images lightgallery">
+                                                            {% for image in trip.hotel.pictures.all %}
+                                                                <a class="image-container" href="{{image}}">
+                                                                    <img src="{{ image }}" class="image-cover" alt="">
+                                                                </a>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="single-right">
+                                <div class="single-sidebar">
+                                    <div class="tour--info">
+                                        <div class="top" style="background-image: url({{ user.avatar.url }});"></div>
+                                        <div class="bottom">
+                                            <div class="cost">
+                                                <div class="new-cost">{{ user.first_name }} {{ user.last_name }}</div>
+                                            </div>
+                                            <p style="margin: 5px 0;">
+                                                {{ user.email }}
+                                            </p>
+                                            <p style="margin: 5px 0;">
+                                                To change password click
+                                                <a style="color:#d46a00;" href="{% url 'change_password' %}">
+                                                    here
+                                                </a>
+                                            </p>
+                                            {% if not request.user.is_guide %}
+                                                <p style="margin: 5px 0;">
+                                                    Request to be guide click
+                                                    <a style="color:#d46a00;" href="{% url 'guide-request' %}">
+                                                         here
+                                                    </a>
+                                                </p>
+                                            {% endif %}
+                                            <p style="margin: 5px 0;">
+                                                Request to be blogger click
+                                                <a style="color:#d46a00;" href="{% url 'blogging-request' %}">
+                                                    here
+                                                </a>
+                                            </p>
+
+                                            <p style="margin: 5px 0;">
+                                                Joined {{ user.joined.date }}
+                                            </p>
+                                            <div style="font-weight:bold; margin:10px 0;">
+                                                <a href="{% url 'logout' %}">
+                                                    Logout
+                                                </a>
+                                            </div>
+                                            <button class="btn getModal" data-href="#book-now">Edit profile</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-fixed-bottom getModal" data-href="#book-now">
+            Book now
+        </div>
+    </div>
+
+    <div class="search_form" id="search_form">
+        <div class="wrap">
+            <div class="wrap_float">
+                <input type="text" class="input" placeholder="Search...">
+                <button type="submit" class="submit"></button>
+                <div class="close"></div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <div style="display: none;">
+        <div class="modal modal_book_now" id="book-now">
+            <div class="modal_wrap">
+                <div class="modal-body">
+                    <div class="modal-title">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </div>
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <div class="fields" style="color:black;">
+                        <div class="field half">
+                            <label class="label" for="name-2">Full Name*</label>
+                            <div class="input_wrap">
+                                <input type="text" name="first_name" class="input" id="name-2" placeholder="{{ user.first_name }}" value="{{ user.first_name }}">
+                                <a style="color: red">{{ form.first_name.errors }}</a>
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="email-2">Email Address*</label>
+                            <div class="input_wrap">
+                                <input type="text" name="last_name" class="input" id="email-2" placeholder="{{ user.last_name }}" value="{{ user.last_name }}">
+                                <a style="color: red">{{ form.last_name.errors }}</a>
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <p class="label">Age*</p>
+                            <div class="input_wrap">
+                                <input type="text"  name="age" class="input" id="date-2" placeholder="{{ user.age }}" value="{{ user.age }}">
+                                <a style="color: red">{{ form.age.errors }}</a>
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <p class="label">Age*</p>
+                            <div class="input_wrap">
+                                <p style="margin: 5px 0;">
+                                    To change picture choose file: {{ form.avatar }}
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <button class="btn submit">Sumbit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal_close"></div>
+        </div>
+    </div>
+
+{% endblock %}

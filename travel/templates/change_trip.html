@@ -1,0 +1,121 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Edit trip {% endblock %}
+{% block content %}
+
+<div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="#">Change trip</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header3.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        Edit your trip here.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        You can only change the hotel and meal type.
+                                        In order to edit your trip do following steps:<br>
+                                        <ul>
+                                            <li>
+                                                <h5><b>Choose hotel.</b></h5>
+                                                <h5><b>Choose type of food.</b></h5><br>
+                                                After submitting in the system will be edit your trip details.<br>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <br><br><h2>Fill the form to update trip:</h2>
+                                {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                <p>{{ error|escape }}</p>
+                            </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        {% if form.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div id="form_errors">
+                                        {% for key, value in form.errors.items %}
+                                            <strong>{{ value }}</strong>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                        {% endif %}
+
+                        <form class="form" method="POST" enctype="multipart/form-data">
+                            <div class="fields__block">
+                                <div class="fields">
+                                    <div class="field">
+                                      {% csrf_token %}
+
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                              <div><label class="section_subtitle">Hotel</label></div>
+                                                {{ form.hotel|add_class:"input form-control-lg" }}
+                                                    {{ form.hotel.errors|escape}}
+                                            </div>
+
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                              <div><label class="section_subtitle">Meal</label></div>
+                                                {{ form.meal|add_class:"input form-control-lg" }}
+                                                    {{ form.meal.errors|escape}}
+                                            </div>
+                                        <input class="btn btn-success" type="submit" name="submit" value="Submit" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+
+
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+    {% endblock %}
+
+}

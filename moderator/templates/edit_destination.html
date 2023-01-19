@@ -1,0 +1,60 @@
+{% extends 'base.html'%}
+{% load widget_tweaks %}
+{% block title %} Edit destination {% endblock %}
+{% block content %}
+
+        <div class="page_content single-page tour-single dark">
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float" >
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                    <p>{{ error|escape }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                        <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                        <div class="search_tour_form">
+                            <h2 class="section_subtitle">
+                                Edit destination
+                            </h2>
+                            {% csrf_token %}
+                            <div class="fields__block">
+                                <div class="fields">
+                                    <div class="field">
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                        <h5 style="margin: 10px 0; color: white;">{{ field.label }} </h5>
+                                            {{ field|add_class:"input form-control-lg" }} <br/>
+                                        {% endfor %}
+                                        {{ imageform.management_form }}
+                                        {% for form in imageform %}
+                                            {{ form.label }}
+                                            {{ form|add_class:"input form-control-lg" }} <br/>
+                                        {% endfor %}
+                                        <input class="btn btn-success" type="submit" name="submit" value="Submit" />
+                                    </div>
+                                </div>
+                                <button class="submit"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

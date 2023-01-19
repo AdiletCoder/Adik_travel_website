@@ -1,0 +1,154 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Create trip {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="#">Book Trip</a>
+                    <span class="separator">/</span>
+                    <a href="#">Choose guides</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header3.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        You are one step<br> to create your own trip.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        You have to choose guide here:<br>
+                                        <ul>
+                                            <li>
+                                                <h5><b>Choose guide.</b> After choosing the guide you have to select services.</h5><br>
+                                                <h5><b>If type of trip is family, you have to mention number of people you are travelling.</b></h5><br>
+                                                <h5><b>If type of trip is multiple, you have an option to join existing groups.</b></h5>
+                                                After submitting in the system will add guide to your trip, but to finish you have to select services on the next page.<br>
+                                            </li>
+
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <h2>Fill the form to create trip:</h2>
+                                <form class="form" method="POST">
+                                {% csrf_token %}
+                                    <div class="fields__block">
+                                        <div class="fields">
+                                            <div class="field">
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Choose your guide</label></div>
+                                                    {{ form.guide|add_class:"input" }}
+                                                    {{ form.guide.errors|escape}}
+                                                </div>
+                                                {% if request.user.trips.last.type == 'family' %}
+                                                <h1>{{request.user.trips.last.type}}</h1>
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Choose your guide</label></div>
+                                                    {{ form.members|add_class:"input required" }}
+                                                    {{ form.members.errors|escape}}
+                                                </div>
+                                                {% endif %}
+                                                {% if request.user.trips.last.type == 'multiple' %}
+                                                <h1>{{request.user.trips.last.type}}</h1>
+                                                <div class="field_wrap keywords" style="margin: 10px 0;" >
+                                                  <div><label class="section_subtitle">Write number of participants in family group</label></div>
+                                                   <input class="input" type="number" name="members" placeholder="1" value="1" disabled>
+                                                    <a style="color: red">{{ form.members.errors }}</a>
+                                                </div>
+                                                {% endif %}
+
+                                                <button class="btn" type="submit">Save Changes</button>
+
+                                                {% if form.non_field_errors %}
+                                                {% for error in form.non_field_errors %}
+                                                    <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                                        <p>{{ error|escape }}</p>
+                                                    </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        <button class="submit"></button>
+                                    </div>
+                                </form>
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {% for gr in groups %}
+                                        <div class="program">
+                                        <h2>Join to existing groups </h2>
+                                        <div class="program-days">
+                                            <div class="day-item">
+                                                <div class="day-head">
+                                                    <div class="day-num">
+                                                        {{ gr.trips.first.place}}
+                                                    </div>
+                                                    <div class="day-title">
+                                                        {{ gr.trips.first.start_date }} - {{ gr.trips.first.end_date }}
+                                                    </div>
+                                                </div>
+                                                <div class="day-body">
+                                                    <div class="apartment-item">
+                                                        <div class="apartment-content">
+                                                            <h3>Guide: {{ gr.trips.first.guide.user.first_name}} {{ gr.trips.first.guides.user.last_name}}</h3>
+                                                            <h4>Services:</h4>
+                                                            {% for sv in gr.trips.first.service.all %}
+                                                                <ul>
+                                                                    <li>{{ sv }}</li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <button style="margin: 0 10px; background-color:#0a0a23; color: #fff; border:none; border-radius:10px; padding:15px; min-height:30px; min-width: 120px;" type="submit" value="{{gr.id}}" name="ava">Join</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+
+
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+    {% endblock %}

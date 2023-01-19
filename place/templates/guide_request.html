@@ -1,0 +1,120 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Guide request {% endblock %}
+{% block content %}
+    <div class="breadcrumbs">
+        <div class="wrap">
+            <div class="wrap_float">
+                <a href="{% url 'home' %}">Home</a>
+                <span class="separator">/</span>
+                <a href="{% url 'profile' %}">Profile</a>
+                <span class="separator">/</span>
+                <a href="#" class="current">Request for guide</a>
+            </div>
+        </div>
+    </div>
+    <div class="image_bg--single" style="background-image: url({% static 'img/header3.jpg' %});"></div>
+    <div class="page_content single-page tour-single">
+        <div class="content-head">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="main">
+                        <div class="section-top single-row">
+                            <div class="single-left">
+
+                                <h1 class="title">
+                                    You have a chance<br> to show your city to guests.
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="single-tour-slider" id="single-tour-slider">
+
+                        </div>
+                        <div class="description single-row">
+                            <div class="single-left">
+                                <p>
+                                    In this platform you can become a guide. In order to do this, you have to fill the request form and wait for the approval by moderator of the platform.<br>
+                                    <ul>
+                                        <li>
+                                            <h5><b>Tell about yourself.</b></h5>
+                                            <h5><b>Describe you experience.</b>This is the main field for moderators approval process, try to do more detailed story</h5><br>
+                                            <h5><b>Select languages you can speak.</b>Must be at least B2 level.</h5>
+                                            <h5><b>Select the destination you can guide.</b></h5><br>
+                                            After submitting, the system will send request to moderator.<br>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="single-left">
+                        <div class="single-content page--content details">
+                            <h2>Fill the form to request for blogging:</h2>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="fields__block">
+                                    <div class="fields">
+                                        <div class="field">
+                                            {% csrf_token %}
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                <div><label class="section_subtitle">About you</label></div>
+                                                {{ form.description|add_class:"textarea form-control-lg" }}
+                                                {{ form.description.errors|escape}}
+                                            </div>
+
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                <div><label class="section_subtitle">Your experience</label></div>
+                                                {{ form.experience|add_class:"textarea form-control-lg" }}
+                                                {{ form.experience.errors|escape}}
+                                            </div>
+
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                <div>
+                                                    <label class="section_subtitle">
+                                                        Choose languages you can guide
+                                                    </label>
+                                                </div>
+                                                <div class="reviews_comments" style="padding-bottom:30px;">
+                                                    <div class="reviews_comments_top">
+                                                        <div class="sorting">
+                                                            <div class="select_wrap" style="height:110px; padding-left:5px;">
+
+                                                                {{ form.language|add_class:"select_wrap select" }}
+                                                                {{ form.language.errors|escape}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                              <div><label class="section_subtitle">Destination you can guide</label></div>
+
+                                                <div>
+                                                    {{ form.place|add_class:"input form-control-lg" }}
+                                                    {{ form.place.errors|escape}}
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-center">
+                                              <button type="submit"
+                                                class="btn">Request</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+{% endblock %}

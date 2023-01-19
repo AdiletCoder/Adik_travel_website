@@ -1,0 +1,115 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Select services {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="#">Book Trip</a>
+                    <span class="separator">/</span>
+                    <a href="#">Choose guides</a>
+                    <span class="separator">/</span>
+                    <a href="#">Choose services</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header3.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        You are one step<br> to create your own trip.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        You have to choose guide here:<br>
+                                        <ul>
+                                            <li>
+                                                <h5><b>Select services.</b> Notice, if your trip lasts one day, you can choose only six services.</h5><br>
+                                                After submitting, the system will create your trip. You can see the details among with price in your profile.<br>
+                                            </li>
+
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details"><br>
+                                <h2>Fill the form to create trip:</h2>
+
+                                <form class="form" method="POST">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-dismissible alert-success">
+                                            <button type="button" class="close" data-dismiss="alert"></button>
+                                            <strong style="color:red">{{message}}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% csrf_token %}
+                                <div class="fields__block">
+                                    <div class="fields">
+                                        <div class="field">
+                                            <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                <div>
+                                                    <label class="section_subtitle">
+                                                        Services
+                                                    </label>
+                                                </div>
+                                                {{ form.service|add_class:"textarea" }}
+                                                {{ form.service.errors|escape}}
+                                                {{ form.days.errors|escape}}
+                                            </div>
+                                            <button class="btn" type="submit">Save Changes</button>
+                                            {% if form.non_field_errors %}
+                                                {% for error in form.non_field_errors %}
+                                                    <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                                        <p>{{ error|escape }}</p>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                        <button class="submit"></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="overlay" id="overlay"></div>
+
+
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+    {% endblock %}

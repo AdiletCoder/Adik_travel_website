@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 page | Lavella</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/404.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="page_404" style="background-image: url({% static 'img/404.jpg' %});">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="/" class="logo">Adik</a>
+                    <div class="center-text">
+                        <div class="title">404 page not found</div>
+                        <div class="subtitle">Sorry, we couldn’t find the page you’re looking for.</div>
+                        <a href="{% url 'home' %}" class="btn"><span>Back to homepage</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script defer src="{% static 'js/jquery.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script defer src="{% static 'js/slick.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.arcticmodal.min.js' %}"></script>
+    <script defer src="{% static 'js/lightgallery.js' %}"></script>
+    <script defer src="{% static 'js/spincrement.min.js' %}"></script>
+    <script defer src="{% static 'js/scripts.min.js' %}"></script>
+</body>
+</html>

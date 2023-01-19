@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+
+        <div class="image_bg--single" style="background-image: url({% static 'img/header5.jpg' %});"></div>
+        <div class="page_content blog-page">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="title">
+                        Posts in category_name category
+                    </div>
+                    <div class="main" style="max-width: 100%;">
+                        <div class="blog-list">
+                          {% for post in posts %}
+                            <a href="{% url 'post' post.slug %}" class="blog-item">
+                                <div class="_img" style="background-image: url({{ post.image.url }})">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_date">{{ post.date_hub }} | {{ post.tags.first }}</div>
+                                <div class="_title">
+                                    {{ post.title }}
+                                </div>
+                                <div class="_text">
+                                    {{ post.text | truncatewords:20 }}
+                                </div>
+                            </a>
+                          {% endfor %}
+
+                        </div>
+                        <div class="pagination" style="margin: 0 auto;">
+                            {% if page_obj.has_other_pages %}
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                {% else %}
+                                <li class="prev"><a disabled></a></li>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                <li class="current"><a disabled>{{ i }}</a></li>
+                                {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                                {% else %}
+                                <li class="next"><a disabled></a></li>
+                                {% endif %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+

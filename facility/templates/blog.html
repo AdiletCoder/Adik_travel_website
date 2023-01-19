@@ -1,0 +1,201 @@
+{% extends 'base.html'%}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'blog' %}">Blog</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header5.jpg' %});"></div>
+        <div class="page_content blog-page">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="title">
+
+                        <div class="blog-search">
+                            <div>
+                                Posts
+                            </div>
+                            <div class="search-custom">
+                                <form class="d-flex" method="get" action="{% url 'search' %}">
+                                    <div class="search-custom">
+                                        <div>
+                                            <input name="q" style="width: 90%; height: 40px; border-radius: 10px;" type="search" placeholder="Search" aria-label="Search">
+                                        </div>
+                                        <div>
+                                            <button style="height: 60px; border-radius: 15px; line-height: 40px; background-color: rgba(255, 127, 0, 0.4)" class="btn" type="submit">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main">
+                        <div class="blog-list two-colums">
+                          {% for post in posts %}
+                            <a href="{% url 'post' post.slug %}" class="blog-item">
+                                <div class="_img" style="background-image: url({{ post.image.url }})">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_date">{{ post.date_hub }}| {{ post.tags.all }}</div>
+                                <div class="_title">
+                                    {{ post.title }}
+                                </div>
+                                <div class="_text">
+                                    {{ post.text | truncatewords:20 }}
+                                </div>
+                            </a>
+                          {% endfor %}
+                        </div>
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                            <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                            {% else %}
+                            <li class="prev"><a disabled></a></li>
+                            {% endif %}
+                            {% for i in page_obj.paginator.page_range %}
+                            {% if page_obj.number == i %}
+                            <li class="current"><a disabled>{{ i }}</a></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                            {% else %}
+                            <li class="next"><a disabled></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="sidebar">
+                        <div class="categories--list">
+                            <div class="block-title">Categories</div>
+                            <ul>
+                            {% for tag in tags %}
+                                <li>
+                                    <a href="{% url 'posts' tag.slug %}">
+                                        <span class="count">{{ tag.posts.all.count }}</span>
+                                        <span class="_title">{{ tag.title }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% if request.user.is_blogger %}
+                            <div class="text_widget" style="background-color: #222B46;">
+                                <div class="_title">
+                                    Blogging
+                                </div>
+                                <div class="_text">
+                                    You are a blogger. You can add/update/delete posts.
+                                    We encourage you to be active and make travelling blog platform better.
+                                    Adik travel agency appreciates work done by you.<br>
+                                    Create your blog <a href="{% url 'create-post' %}">here</a>.
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="recent_photo">
+                            <div class="block-title">
+                                Recent photo
+                            </div>
+                            <div class="photos">
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-1.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-2.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-3.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-4.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-5.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-6.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-7.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-8.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="gallery.html" class="item">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content">
+                                                <img src="img/gal-9.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

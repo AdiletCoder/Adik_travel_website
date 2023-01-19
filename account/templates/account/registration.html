@@ -1,0 +1,113 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Register {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <span class="separator">/</span>
+                    <a href="#" class="current">Register</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header4.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        You can register here.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        In order to register do following steps:
+                                        <ul>
+                                            <li>
+                                                <h5><b>Write first name.</b></h5>
+                                                <h5><b>Write first last name.</b></h5>
+                                                <h5><b>Write your age.</b></h5>
+                                                <h5><b>Write your email.</b> You will not be able to change this field.</h5>
+                                                <h5><b>Create password for this platform.</b> It must contain at least 8 characters.</h5>
+                                                <h5>Forgot password?<a href="{% url 'password_reset' %}" class="text-body"><b> click here...</b></a></h5>
+                                                <p class="small fw-bold mt-2 pt-1 mb-0" style="margin: 10px 0; color:white;">Don't have an account? <a href="{% url 'register'%}"><b>Register here</b></a></p>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <br><h2>Fill the form to register:</h2>
+                                <form method="post" enctype="multipart/form-data">
+                                     <div class="fields__block">
+                                        <div class="fields">
+                                            <div class="field">
+                                                {% csrf_token %}
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Your name</label></div>
+                                                    {{ form.first_name|add_class:"input form-control-lg" }}
+                                                    {{ form.first_name.errors|escape}}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Your Last Name</label></div>
+                                                    {{ form.last_name|add_class:"input form-control-lg" }}
+                                                        {{ form.last_name.errors|escape}}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Your Age</label></div>
+                                                    {{ form.age|add_class:"input form-control-lg" }}
+                                                        {{ form.age.errors|escape}}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Your Email</label></div>
+                                                    {{ form.email|add_class:"input form-control-lg" }}
+                                                        {{ form.email.errors|escape}}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Password</label></div>
+                                                    {{ form.password|add_class:"input form-control-lg" }}
+                                                        {{ form.password.errors|escape}}
+                                                </div>
+
+                                                <div class="d-flex justify-content-center">
+                                                  <button type="submit"
+                                                    class="btn btn__choose_tour">Register</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
+{% endblock %}

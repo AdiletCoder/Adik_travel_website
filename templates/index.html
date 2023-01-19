@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Adik - widen your horizon {% endblock %}
+{% block content %}
+    <div class="homepage_slider">
+        <div class="slider-container">
+            <div class="slider-control left inactive"></div>
+            <div class="slider-control right"></div>
+<!--            <ul class="slider-pagi"></ul>-->
+            <div class="slider">
+                <div class="slide slide-0 active">
+                    <div class="slide__bg" style="background-image: url({% static 'img/slide4.jpg' %});"></div>
+                    <div class="slide__content">
+                        <div class="slide__text">
+                            <h2 class="slide__text-heading">New way of travelling with Adik</h2>
+                            <p class="slide__text-desc">Choose trips according to your desires</p>
+                            <div class="slide__controls">
+                                <a href="{% url 'destinations' %}" class="btn btn__choose_tour">Choose tour</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="most_popular">
+            <span>
+                Pick the most popular destination this year and live your best trip ever.
+            </span>
+        </div>
+    </div>
+    <div class="most_popular__section mainpage-slider">
+        <div class="wrap">
+            <div class="wrap_float">
+                <div class="top_part">
+                    <div class="top_part_left">
+                        <p class="section_subtitle">POPULARLY</p>
+                        <h2 class="section_title">
+                            Most popular <br> holiday destinations
+                        </h2>
+                    </div>
+                    <div class="top_part_right">
+                        <a href="{% url 'destinations' %}" class="btn">
+                            <span>View all tours</span>
+                        </a>
+                        <div class="controls" id="most_popular__arrows">
+                            <div class="arrow prev"></div>
+                            <div class="arrow next"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="most_popular__section__slider" id="most_popular__slider">
+                    {% for place in top_places %}
+                    <a href="{% url 'destination' place.pk %}" class="slider_item" style="background-image: url({{ place.pictures.first }})">
+                        <div class="slider_item__content">
+
+                            <h3 class="title">
+                                {{ place.name }}
+                            </h3>
+                            <p class="description">
+                                {{ place.description | truncatewords:10  }}
+                            </p>
+                            <div class="days">
+                                <span>{{ place.q_count }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search_tour">
+        <div class="wrap">
+            <div class="wrap_float">
+                <div class="search_tour_form">
+                    <h2 class="section_subtitle">
+                        SEARCH TOUR
+                    </h2>
+                    <p class="section_title" style="color:black;">
+                        Ready to rest? We are ready to help with the search
+                    </p>
+                    <div class="fields__block">
+                        <form method="get" action="{% url 'search_places' %}">
+                            <div class="fields">
+                                <div class="field_wrap keywords">
+                                    <input class="search-input-custom" name="q" type="search" placeholder="Search..." aria-label="Search">
+                                </div>
+                            </div>
+                            <button class="submit"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top_destination mainpage-slider">
+        <div class="section_heading">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="section_subtitle">
+                        TOP DESTINATIONS
+                    </div>
+                    <h2 class="section_title" style="color: black;">
+                        Adik - Tour Operator
+                    </h2>
+                    <div class="description">
+                        <div class="left">
+                            <p class="text">
+                                We at Adik, value the comfort of the tourists. Our goal to suggest the best tours of the season.
+                                Below, you can find popular destinations from each country registered in our platform.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section_content popular_destination__content">
+            <div class="wrap">
+                <div class="wrap_float">
+                    {% for c in places %}
+                    <a href="" class="item">
+                        <div class="sq_parent">
+                            <div class="sq_wrap">
+                                <div class="sq_content image" style="background-image: url({{ c.pictures.first }})"></div>
+                                <span>{{ c.name }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blog blog-section last-section" style="background-image: url({% static 'img/home4.jpg' %});">
+        <div class="wrap">
+            <div class="wrap_float">
+                <div class="top_part">
+                    <div class="section_subtitle">
+                        BLOG
+                    </div>
+                    <h2 class="section_title">
+                        Travel articles
+                    </h2>
+                    <div class="section_description">
+                        You can become guide on this platform. Please, create your profile and request for blogging.
+                        Our moderators will approve as soon as possible, after viewing your request.
+                    </div>
+                </div>
+                <div class="section_content">
+                    {% for post in posts %}
+                    <a href="{% url 'post' post.slug %}" class="blog_item">
+                        <div class="blog_item_img">
+                            <img src="{{post.image.url}}" alt="">
+                        </div>
+                        <div class="blog_item_date">
+                            {{ post.date_hub }} | {% for tag in post.tags.all %} {{ tag }}  {% endfor %}
+                        </div>
+                        <h3 class="blog_item_title">
+                            {{ post.title }}
+                        </h3>
+                        <p class="blog_item_text">
+                            {{ post.text | truncatewords:20 }}
+                        </p>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="show-more">
+                    <a href="{% url 'blog' %}" class="btn">
+                        <span>View all articles</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">
+        <div class="modal modal_book_now" id="book-now">
+            <div class="modal_wrap">
+                <div class="modal-head">
+                    <img src="{% static 'img/vput2.jpg' %}" class="image-cover" alt="">
+                </div>
+                <div class="modal-body">
+                    <div class="tags">
+                        <div class="tag discount">20% off</div>
+                        <div class="tag new">New</div>
+                    </div>
+                    <div class="modal-title">
+                        America, San Francisco | $3,500
+                    </div>
+                    <div class="fields">
+                        <div class="field half">
+                            <label class="label" for="name-2">Full Name*</label>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="name-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="email-2">Email Address*</label>
+                            <div class="input_wrap">
+                                <input type="email" class="input" id="email-2">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label class="label" for="date-2a">Travel Date*</label>
+                            <div class="input_wrap calendar-field">
+                                <input type="text" class="input js_calendar" id="date-2a">
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <p class="label">Person*</p>
+                            <div class="input_wrap">
+                                <input type="text" class="input" id="date-2">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="enquiry-2">Your Enquiry*</label>
+                            <div class="textarea_wrap">
+                                <textarea class="textarea" id="enquiry-2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn submit">Sumbit</button>
+                </div>
+            </div>
+            <div class="modal_close"></div>
+        </div>
+    </div>
+{% endblock %}

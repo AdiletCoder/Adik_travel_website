@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Destinations{% endblock %}
+{% block content %}
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'destinations' %}">Destinations</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--destinations" style="background-image: url({% static 'img/header2.jpg' %});"></div>
+        <div class="page_content destinations-page">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <div class="section-subtitle">EXPLORE TOURS BY DESTINATIONS</div>
+                    <div class="section-title">Destinations</div>
+                    <div class="main">
+                        <div class="popular_destination__slider">
+                            {% for place in destinations %}
+                            <div class="slide_item">
+                                <a href="{% url 'destination' place.pk %}" class="slide_item_img">
+                                    <div class="sq_parent">
+                                        <div class="sq_wrap">
+                                            <div class="sq_content" style="background-image: url({{ place.pictures.first }})"></div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{% url 'destination' place.pk %}" class="slide_item_content">
+                                    <div class="flag">
+                                        <img src="{{ place.pictures.first }}" alt="">
+                                    </div>
+                                    <h3 class="slide_title">
+                                        {{ place.name }}
+
+                                    </h3>
+                                    <p class="slide_text">
+                                        {{ place.description | truncatewords:20 }}
+                                    </p>
+                                </a>
+                                <div class="slide_footer">
+                                    <div class="hours">{{ place.price }}</div>
+                                    <div class="tours_link">
+                                        {{ place.country }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="pagination">
+                            {% if page_obj.has_other_pages %}
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                <li class="prev"><a href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                {% else %}
+                                <li class="prev"><a disabled></a></li>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                <li class="current"><a disabled>{{ i }}</a></li>
+                                {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                <li class="next"><a href="?page={{ page_obj.next_page_number }}"></a></li>
+                                {% else %}
+                                <li class="next"><a disabled></a></li>
+                                {% endif %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}

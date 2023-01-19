@@ -1,0 +1,116 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} Login {% endblock %}
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="wrap">
+                <div class="wrap_float">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <span class="separator">/</span>
+                    <a href="#" class="current">Login</a>
+                </div>
+            </div>
+        </div>
+        <div class="image_bg--single" style="background-image: url({% static 'img/header4.jpg' %});"></div>
+        <div class="page_content single-page tour-single">
+            <div class="content-head">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="main">
+                            <div class="section-top single-row">
+                                <div class="single-left">
+
+                                    <h1 class="title">
+                                        You can login here.
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="single-tour-slider" id="single-tour-slider">
+
+                            </div>
+                            <div class="description single-row">
+                                <div class="single-left">
+                                    <p>
+                                        In order to login do following steps:
+                                        <ul>
+                                            <li>
+                                                <h5><b>Write email registered in the system.</b></h5>
+                                                <h5><b>Write the password.</b> </h5>
+                                                <h5>Forgot password?<a href="{% url 'password_reset' %}" class="text-body"><b> click here...</b></a></h5>
+                                                <p class="small fw-bold mt-2 pt-1 mb-0" style="margin: 10px 0; color:white;">Don't have an account? <a href="{% url 'register'%}"><b>Register here</b></a></p>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="wrap">
+                    <div class="wrap_float">
+                        <div class="single-left">
+                            <div class="single-content page--content details">
+                                <br><h2>Fill the form to change password:</h2>
+                                <form method="post" enctype="multipart/form-data">
+                                     {% if form.non_field_errors %}
+                                        {% for error in form.non_field_errors %}
+                                            <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                                <p>{{ error|escape }}</p>
+                                            </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% if form.errors %}
+                                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                                    <div id="form_errors">
+                                                        {% for key, value in form.errors.items %}
+                                                            <strong>{{ value }}</strong>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                     {% endif %}
+                                    <div class="fields__block">
+                                        <div class="fields">
+                                            <div class="field">
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Email Address</label></div>
+                                                    {{ form.username|add_class:"input form-control-lg" }}
+                                                </div>
+
+                                                <div class="field_wrap keywords" style="margin: 10px 0;">
+                                                  <div><label class="section_subtitle">Password</label></div>
+                                                    {{ form.password|add_class:"input form-control-lg" }}
+                                                </div>
+
+                                                {% csrf_token %}
+                                                {% if form.non_field_errors %}
+                                                        {% for error in form.non_field_errors %}
+                                                            <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
+                                                                <p>{{ error|escape }}</p>
+                                                            </div>
+                                                        {% endfor %}
+                                                {% endif %}
+
+                                                <div class="text-center text-lg-start mt-4 pt-2">
+                                                  <button type="submit" class="btn">Login</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
+{% endblock %}
