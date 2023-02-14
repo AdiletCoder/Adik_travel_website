@@ -49,19 +49,20 @@ class SignInView(LoginView):
 def profile(request):
     guide = None
     trips = Trip.objects.filter(end_date__gte=datetime.date.today())
-    completed_trips = Trip.objects.filter(end_date__lt=datetime.date.today())
+    completed_trips = Trip.objects.filter(end_date__lt=datetime.date.today(), user=request.user)
     if request.user.is_guide:
         guide = Guide.objects.filter(user=request.user, approved=True).first()
+        guide_trips = Trip.objects.filter(guide=guide)
+
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, request.FILES, instance=request.user)
-        print(request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile is updated successfully')
     else:
         form = UpdateProfileForm(instance=request.user)
 
-    return render(request, 'account/myprofile.html', {'form': form, 'completed_trips': completed_trips, 'user': request.user, 'guide': guide, 'trips':trips})
+    return render(request, 'account/myprofile.html', {'form': form, 'completed_trips': completed_trips, 'user': request.user, 'guide': guide, 'trips':trips, 'guide_trips': guide_trips})
 
 
 def change_password(request):

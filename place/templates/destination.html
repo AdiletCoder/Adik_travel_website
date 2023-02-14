@@ -168,6 +168,7 @@
                             </div>
 
                             <div class="reviews_comments">
+                                {% if request.user.is_authenticated %}
                                 <form class="form" method="POST">
                                     {% csrf_token %}
                                     <div class="add_comment">
@@ -179,12 +180,13 @@
                                                 {{ form.message.errors|escape}}
                                             </div>
                                         </div>
+
                                         <div class="comment-fotm-bottom">
                                             <button class="btn submit">Sumbit</button>
                                         </div>
                                     </div>
                                 </form>
-
+                                {% endif %}
 
 
                                 <div class="reviews_comments_top">
@@ -205,12 +207,16 @@
                                         <div class="name">{{ c.user.first_name }} {{ c.user.last_name }}</div>
                                         <div class="text">
                                             {{ c.message }}
-                                        {% if request.user == c.user %}
-                                            <a href="{% url 'destination-delete' c.pk %}">Delete</a>
-                                        {% endif %}
-
                                         </div>
                                         <div class="date">{{ c.timestamp }}</div>
+                                        <div>
+                                            {% if request.user == c.user %}
+                                            <br>
+                                            <a style="border: solid grey 2px; border-radius: 5px; padding: 3px;" href="{% url 'destination-delete' c.pk %}">
+                                                Delete
+                                            </a>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     {% endfor %}
                                     {% endif %}

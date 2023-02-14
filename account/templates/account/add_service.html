@@ -58,7 +58,7 @@
                             <div class="single-content page--content details">
                                 <br><h2>Fill the form to change password:</h2>
                                 <form method="post" enctype="multipart/form-data">
-                                     {% if form.non_field_errors %}
+                                    {% if form.non_field_errors %}
                                     {% for error in form.non_field_errors %}
                                         <div class="mb-5 p-4 rounded-xl bg-red-200 text-white">
                                             <p>{{ error|escape }}</p>

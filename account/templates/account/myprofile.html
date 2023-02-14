@@ -40,6 +40,7 @@
                                             <p>You can not change the information below, to do it you have to send request to moderator.</p>
 
                                             <div class="faq_accordeon">
+
                                                 <div class="faq_item active">
                                                     <div class="faq_tab">
                                                         <span>Description</span>
@@ -48,40 +49,44 @@
                                                         <p>{{ guide.description }}</p>
                                                     </div>
                                                 </div>
+
+                                                <div class="faq_item">
+                                                    <div class="faq_tab">
+                                                        <span>Experience</span>
+                                                    </div>
+                                                    <div class="faq_content">
+                                                        <p>{{ guide.experience }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="faq_item">
+                                                    <div class="faq_tab">
+                                                        <span>Place</span>
+                                                    </div>
+                                                    <div class="faq_content">
+                                                        <p></p>
+                                                        <p>{{ guide.place }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="faq_item">
+                                                    <div class="faq_tab">
+                                                        <span>Language</span>
+                                                    </div>
+                                                    <div class="faq_content">
+                                                        <ul>
+                                                            {% for lang in guide.language.all %}
+                                                                <li >{{ lang }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="faq_item">
-                                                <div class="faq_tab">
-                                                    <span>Experience</span>
-                                                </div>
-                                                <div class="faq_content">
-                                                    <p>{{ guide.experience }}</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="faq_item">
-                                                <div class="faq_tab">
-                                                    <span>Place</span>
-                                                </div>
-                                                <div class="faq_content">
-                                                    <p></p>
-                                                    <p>{{ guide.place }}</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="faq_item">
-                                                <div class="faq_tab">
-                                                    <span>Language</span>
-                                                </div>
-                                                <div class="faq_content">
-                                                    <ul>
-                                                        {% for lang in guide.language.all %}
-                                                            <li >{{ lang }}</li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            </div>
-
+                                            <h1>List of your trips:</h1>
+                                            {% for trip in guide.trips.all %}
+                                            <h6>{{ trip.place.name }}: {{ trip.start_date }}- {{ trip.end_date }}</h6>
+                                            {% endfor %}
                                         </div>
                                         <button class="btn" style="color:white;"><a href="{% url 'g-add_service' %}">Add a service</a></button>
                                     {% endif %}
@@ -93,10 +98,11 @@
                                         </div>
                                     {% endif %}
 
+                                    {% if not request.user.is_guide and not request.user.is_moderator %}
                                     <div class="program">
                                         <h2>My trips</h2>
                                         <div class="program-days">
-                                            {% for trip in trips %}
+                                            {% for trip in request.user.trips.all %}
                                                 <div class="day-item">
                                                 <div class="day-head">
                                                     <div class="day-num">
@@ -138,6 +144,7 @@
                                     <div class="program">
                                         <h2>My completed trips</h2>
                                         <div class="program-days">
+
                                             {% for trip in completed_trips %}
                                             <div class="day-item">
                                                 <div class="day-head">
@@ -176,7 +183,7 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -256,14 +263,14 @@
                         {% csrf_token %}
                     <div class="fields" style="color:black;">
                         <div class="field half">
-                            <label class="label" for="name-2">Full Name*</label>
+                            <label class="label" for="name-2">Name*</label>
                             <div class="input_wrap">
                                 <input type="text" name="first_name" class="input" id="name-2" placeholder="{{ user.first_name }}" value="{{ user.first_name }}">
                                 <a style="color: red">{{ form.first_name.errors }}</a>
                             </div>
                         </div>
                         <div class="field half">
-                            <label class="label" for="email-2">Email Address*</label>
+                            <label class="label" for="email-2">Last name*</label>
                             <div class="input_wrap">
                                 <input type="text" name="last_name" class="input" id="email-2" placeholder="{{ user.last_name }}" value="{{ user.last_name }}">
                                 <a style="color: red">{{ form.last_name.errors }}</a>
@@ -277,15 +284,13 @@
                             </div>
                         </div>
                         <div class="field half">
-                            <p class="label">Age*</p>
+                            <p class="label">Image*</p>
                             <div class="input_wrap">
                                 <p style="margin: 5px 0;">
                                     To change picture choose file: {{ form.avatar }}
                                 </p>
                             </div>
                         </div>
-
-
                     </div>
                     <button class="btn submit">Sumbit</button>
                     </form>

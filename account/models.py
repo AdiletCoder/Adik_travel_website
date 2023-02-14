@@ -37,7 +37,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.FileField(upload_to='avatars', default='avatars/my_photo.jpg')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
     is_guide = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
     is_blogger = models.BooleanField(default=False)

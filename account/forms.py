@@ -22,23 +22,11 @@ class RegistrationForm(forms.ModelForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file', 'name': 'picture'}))
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'age', 'avatar']
-
-    def clean_first_name(self):
-        name = self.cleaned_data.get('first_name')
-        if not name.isalpha():
-            raise forms.ValidationError('Firstname can only contain letters')
-        return name
-
-    def clean_last_name(self):
-        name = self.cleaned_data.get('last_name')
-        if not name.isalpha():
-            raise forms.ValidationError('Last name can only contain letters')
-        return name
 
 
 class UpdateGuideForm(forms.ModelForm):

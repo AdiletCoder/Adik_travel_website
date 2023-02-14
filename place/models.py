@@ -37,17 +37,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.message
-# class Comment(models.Model):
-#     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='words', on_delete=models.CASCADE)
-#     fundraiser = models.ForeignKey(Place, related_name='words', on_delete=models.CASCADE)
-#     body = models.TextField()
-#     created = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.body
-#
-#     class Meta:
-#         ordering = ('-created',)
 
 
 class Guide(models.Model):

@@ -7750,7 +7750,7 @@ body {
   display: list-item;
 }
 .page--content a:not([class]) {
-  color: #ff7f00;
+  color: white;
 }
 .page--content a:not([class]):hover {
   text-decoration: underline;

@@ -19,7 +19,6 @@ from .models import Trip, Group
 def home_page(request):
     places = []
     country = Country.objects.all()
-
     groups = Group.objects.all()
     for group in groups:
         if group.trips.first() is None:
@@ -39,7 +38,8 @@ def home_page(request):
         if count > 8:
             break
         count += 1
-    return render(request, 'index.html', {'places': places, 'tags': tags, 'posts': posts, 'top_places': top_places})
+    return render(request, 'index.html', {'places': places, 'tags': tags, 'posts': posts,
+                                          'top_places': top_places})
 
 
 @login_required
@@ -69,6 +69,7 @@ class MyTripDeleteView(LoginRequiredMixin, DeleteView):
     context_object_name = 'trips'
 
 
+@login_required
 def trip_service(request, pk):
     trip = get_object_or_404(Trip, id=pk)
     if request.method == 'POST':
@@ -119,6 +120,7 @@ def trip_service(request, pk):
     return render(request, 'trip_service.html', {'form': form})
 
 
+@login_required
 def trip_guide(request, pk):
     trip = get_object_or_404(Trip, id=pk)
     groups = []
@@ -175,7 +177,7 @@ class GroupListView(LoginRequiredMixin, ListView):
     paginate_by = 6
 
 
-class TripUpdateView(UpdateView):
+class TripUpdateView(LoginRequiredMixin, UpdateView):
     model = Trip
     template_name = 'change_trip.html'
     form_class = TripUpdateForm
