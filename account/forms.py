@@ -6,9 +6,16 @@ from place.models import Guide
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(min_length=8, required=True, widget=forms.PasswordInput)
 
+    birth_date = forms.DateField(
+        input_formats=['%d/%m/%Y'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'input datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'age', 'email', 'password')
+        fields = ('first_name', 'last_name', 'birth_date', 'email', 'password')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -22,11 +29,17 @@ class RegistrationForm(forms.ModelForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file', 'name': 'picture'}))
-
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'input-file', 'name': 'picture'}))
+    birth_date = forms.DateField(
+        input_formats=['%d/%m/%Y'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'input datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'age', 'avatar']
+        fields = ['first_name', 'last_name', 'birth_date', 'avatar']
 
 
 class UpdateGuideForm(forms.ModelForm):

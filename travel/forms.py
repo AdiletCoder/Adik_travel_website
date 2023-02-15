@@ -1,20 +1,23 @@
 import datetime
 
 from django import forms
+from datetime import date
 
 from .models import Trip
 
 
 class TripForm(forms.ModelForm):
     start_date = forms.DateField(
+        input_formats=['%d/%m/%Y'],
         widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
+            'class': 'input datetimepicker-input',
             'data-target': '#datetimepicker1'
         })
     )
     end_date = forms.DateField(
+        input_formats=['%d/%m/%Y'],
         widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
+            'class': 'input datetimepicker-input',
             'data-target': '#datetimepicker1'
         })
     )
@@ -30,9 +33,10 @@ class TripForm(forms.ModelForm):
     def clean_end_date(self):
         end_date = self.cleaned_data.get('end_date')
         start_date = self.cleaned_data.get('start_date')
+        age = date.today().year - self.request.user.birth_date.year
         if end_date < start_date:
             raise forms.ValidationError('End date can not be less than start date')
-        if self.request.user.age <= 16:
+        if age <= 16:
             raise forms.ValidationError('Please, ask your parents to organize a trip you are a kid')
         return end_date
 

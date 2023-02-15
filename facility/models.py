@@ -22,7 +22,7 @@ class Food(models.Model):
         ("vegan", "Vegan"),
         ("any", "Any"),
     )
-    type = models.CharField(choices=FOOD_TYPES, default="halal", max_length=150)
+    type = models.CharField(choices=FOOD_TYPES, default="any", max_length=150)
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=9)
 

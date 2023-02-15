@@ -110,13 +110,13 @@
                                             </div>
 
                                             <div class="field_wrap keywords" style="margin: 10px 0;">
-                                              <div><label class="section_subtitle">Start Date yyyy-mm-dd</label></div>
-                                                {{ form.start_date|add_class:"input form-control-lg" }}
+                                              <div><label class="section_subtitle">Start Date:</label></div>
+                                                {{ form.start_date|add_class:"calendar js_calendar" }}
                                                     {{ form.start_date.errors|escape}}
                                             </div>
                                             <div class="" style="margin: 10px 0;">
-                                              <div><label class="section_subtitle">End Date yyyy-mm-dd</label></div>
-                                                {{ form.end_date|add_class:"input form-control-lg" }}
+                                              <div><label class="section_subtitle">End Date:</label></div>
+                                                {{ form.end_date|add_class:"calendar js_calendar" }}
                                                     {{ form.end_date.errors|escape}}
                                             </div>
                                         <input class="btn btn-success" type="submit" name="submit" value="Submit" />
@@ -125,15 +125,12 @@
                             </div>
                         </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 <div class="overlay" id="overlay"></div>
-
-
 
     <script>
       $(function () {
@@ -143,5 +140,4 @@
       });
     </script>
     {% endblock %}
-
 }

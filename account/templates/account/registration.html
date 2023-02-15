@@ -78,9 +78,9 @@
                                                 </div>
 
                                                 <div class="field_wrap keywords" style="margin: 10px 0;">
-                                                  <div><label class="section_subtitle">Your Age</label></div>
-                                                    {{ form.age|add_class:"input form-control-lg" }}
-                                                        {{ form.age.errors|escape}}
+                                                  <div><label class="section_subtitle">Your birth date:</label></div>
+                                                    {{ form.birth_date|add_class:"calendar js_calendar" }}
+                                                        {{ form.birth_date.errors|escape}}
                                                 </div>
 
                                                 <div class="field_wrap keywords" style="margin: 10px 0;">
@@ -110,4 +110,12 @@
             </div>
         </div>
         <div class="overlay" id="overlay"></div>
+
+<script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY',
+        });
+      });
+    </script>
 {% endblock %}

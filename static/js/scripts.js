@@ -442,11 +442,15 @@ $(document).ready(function(){
     
     //Calendar========================/
     $(".js_calendar").datepicker({
-      dateFormat: "d M yy",
+      dateFormat: "dd/mm/yy",
+
         dayNamesMin: [ "S", "M", "T", "W", "T", "F", "S" ],
         dayNames: [ "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" ],
-        monthNames: [ "January", "February", "March", "April", "May", "June", "Jule", "August", "September", "Oktober", "November", "December" ],
+        monthNames: [ "January", "February", "March", "April", "May", "June", "Jule", "August", "September", "October", "November", "December" ],
         firstDay: 0,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1950:2024"
     });
     //Calendar========================/
     

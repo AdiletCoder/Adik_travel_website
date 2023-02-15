@@ -5,34 +5,34 @@ from django.contrib.auth.base_user import BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, email, first_name, last_name, age, password, **extra_fields):
+    def _create_user(self, email, first_name, last_name, birth_date, password, **extra_fields):
         if not email:
             raise ValueError('Email is required')
         email = self.normalize_email(email)
 
-        user = self.model(email=email, first_name=first_name, age=age, last_name=last_name, **extra_fields)
+        user = self.model(email=email, first_name=first_name, birth_date=birth_date, last_name=last_name, **extra_fields)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_user(self, email, first_name, last_name, age, password, **extra_fields):
+    def create_user(self, email, first_name, last_name, birth_date, password, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, first_name, last_name, age, password, **extra_fields)
+        return self._create_user(email, first_name, last_name, birth_date, password, **extra_fields)
 
-    def create_superuser(self, email, first_name, last_name, age, password, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, birth_date, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_superuser', True)
-        return self._create_user(email, first_name, last_name, age, password, **extra_fields)
+        return self._create_user(email, first_name, last_name, birth_date, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    age = models.PositiveIntegerField()
+    birth_date = models.DateField()
     joined = models.DateTimeField(auto_now_add=True)
     avatar = models.FileField(upload_to='avatars', default='avatars/my_photo.jpg')
     is_active = models.BooleanField(default=True)
@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_blogger = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'age']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'birth_date']
 
     objects = UserManager()
 

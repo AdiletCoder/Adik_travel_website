@@ -48,6 +48,7 @@ class SignInView(LoginView):
 @login_required
 def profile(request):
     guide = None
+    guide_trips = None
     trips = Trip.objects.filter(end_date__gte=datetime.date.today())
     completed_trips = Trip.objects.filter(end_date__lt=datetime.date.today(), user=request.user)
     if request.user.is_guide:
@@ -62,7 +63,9 @@ def profile(request):
     else:
         form = UpdateProfileForm(instance=request.user)
 
-    return render(request, 'account/myprofile.html', {'form': form, 'completed_trips': completed_trips, 'user': request.user, 'guide': guide, 'trips':trips, 'guide_trips': guide_trips})
+    return render(request, 'account/myprofile.html', {'form': form, 'completed_trips': completed_trips,
+                                                      'user': request.user, 'guide': guide, 'trips':trips,
+                                                      'guide_trips': guide_trips})
 
 
 def change_password(request):
